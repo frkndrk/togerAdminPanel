@@ -10,12 +10,21 @@
   },
   "dependencies": {
     "@next/eslint-plugin-next": "14.0.1",
-    "next": "14.0.1",
+    "ag-grid-community": "^32.3.3",
+    "ag-grid-enterprise": "^32.3.3",
+    "ag-grid-react": "^32.3.3",
+    "axios": "^1.7.7",
+    "cors": "^2.8.5",
+    "next": "^14.2.17",
     "react": "18",
-    "react-dom": "18"
+    "react-dom": "18",
+    "react-dom-factories": "^1.0.2",
+    "react-icons": "^4.11.0",
+    "recharts": "^2.9.0"
   },
   "devDependencies": {
     "eslint": "8",
     "eslint-config-next": "14.0.1"
-  }
+  },
+  "proxy": "http://localhost:3000"
 }

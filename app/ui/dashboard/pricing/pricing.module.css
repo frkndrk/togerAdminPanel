@@ -1,0 +1,54 @@
+.container{
+    display: flex;
+    flex-direction: column;
+}
+
+.btnCont{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: -10px;
+}
+
+.newUser{
+    width: 150px;
+    height: 30px;
+    margin-top: 20px;
+    border-radius: 10px;
+    background-color: #2e374a;
+    border: none;
+    color: #fff;
+}
+
+.excelBtn{
+    width: 150px;
+    height: 30px;
+    margin-top: 20px;
+    border-radius: 10px;
+    background-color: #2e374a;
+    border: none;
+    color: #fff;
+}
+
+.edBtn{
+    display: flex;
+    justify-content: start;
+    margin-top: 5px;
+}
+
+.editBtn{
+    height: 30px;
+    border-radius: 10px;
+    background-color: #2e374a;
+    border: none;
+    color: #fff;
+    padding: 10px;
+}
+
+.deleteBtn{
+    height: 30px;
+    border-radius: 10px;
+    background-color: #2e374a;
+    border: none;
+    color: #fff;
+    padding: 10px;
+}
