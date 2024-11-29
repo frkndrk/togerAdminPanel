@@ -156,7 +156,10 @@ const Pricing = () => {
         /* rowSelection: { type: 'single' }, */
         defaultColDef: {
             suppressHeaderMenuButton: true, // Tüm kolonlar için menüyü devre dışı bırakır
-        }
+        },
+        columnTypes: {
+            number: { filter: 'agNumberColumnFilter' },
+        },
     };
 
     const rowSelection = useMemo(() => {
