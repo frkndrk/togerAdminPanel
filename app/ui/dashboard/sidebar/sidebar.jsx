@@ -46,17 +46,17 @@ const menuItems = [
       },
       {
         title: "HGS Onay",
-        path: "/dashboard/products",
+        path: "/dashboard/hgsManagement",
         icon: <MdShoppingBag />,
       },
       {
         title: "HGS Ödemeleri",
-        path: "/dashboard/transactions",
+        path: "/dashboard/hgsPaymentHistory",
         icon: <MdAttachMoney />,
       },
       {
         title: "Raporlar",
-        path: "/dashboard/transactions",
+        path: "/dashboard/reports",
         icon: <MdAttachMoney />,
       }
     ],

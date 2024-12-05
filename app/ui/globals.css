@@ -28,4 +28,8 @@ a {
     --ag-foreground-color: #fff !important; /* Yazı rengini beyaz yap */
     --ag-border-color: color-mix(in srgb, transparent, var(--ag-foreground-color) 0%) !important;
     --ag-secondary-border-color: color-mix(in srgb, transparent, var(--ag-foreground-color) 10%) !important;
-  }
+}
+
+.ag-paging-panel{
+   /*  display: none !important; */
+}

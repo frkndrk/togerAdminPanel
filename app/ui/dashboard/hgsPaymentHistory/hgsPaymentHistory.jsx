@@ -4,12 +4,14 @@ import { AgGridReact } from 'ag-grid-react';
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import axios from 'axios';
-import styles from "./parkSessions.module.css";/* 
-import "../../../../.next/static/css/app/dashboard/parkSessions/page.css" */
+import styles from "./hgsPaymentHistory.module.css"
+/* 
+import 'ag-grid-enterprise'; */
+import { CiEdit } from "react-icons/ci";
 
-import * as XLSX from "xlsx";
+import * as XLSX from 'xlsx';
 
-const ParkSession = () => {
+const HgsPaymentHistory = () => {
     const gridColumnApi = useRef(null);
     const [gridApi, setGridApi] = useState(null);
     const [rowData, setRowData] = useState([]);
@@ -43,8 +45,8 @@ const ParkSession = () => {
 
         // Excel dışa aktarım için gerekli parametreler
         const exportParams = {
-            fileName: "ParkSessions.xlsx", // Dosya adı
-            sheetName: "Park Sessions",  // Sayfa adı
+            fileName: "HgsPaymentHistory.xlsx", // Dosya adı
+            sheetName: "Hgs Payment History",  // Sayfa adı
             allColumns: true,           // Tüm sütunları dahil et
             onlySelected: false,        // Sadece seçili veriler değil, tüm verileri aktar
             columnGroups: true,         // Sütun gruplarını dahil et
@@ -54,48 +56,67 @@ const ParkSession = () => {
     }; */
 
     const handleExport = () => {
-        if (!rowData || rowData.length === 0) {
-            console.error("Veri mevcut değil!");
+        if (!gridApi) {
+            console.error("Grid API'ye erişilemiyor!");
             return;
         }
     
-        // Sütun başlıkları ve verileri ayarla
-        const headers = columnDefs.map(col => col.headerName).filter(Boolean); // headerName değerlerini al
-        const data = rowData.map(row => 
-            columnDefs.map(col => row[col.field]) // field değerine göre veri çek
+        // Grid verilerini alın
+        const rowData = [];
+        gridApi.forEachNode((node) => rowData.push(node.data));
+    
+        if (rowData.length === 0) {
+            console.error("Dışa aktarılacak veri yok!");
+            return;
+        }
+    
+        // Sütun başlıklarını ve veri setini hazırlayın
+        const columnHeaders = columnDefs
+            .filter((col) => col.headerName && col.excelExport !== false) // 'excelExport: false' olanları hariç tut
+            .map((col) => col.headerName);
+    
+        const exportData = rowData.map((row) =>
+            columnDefs
+                .filter((col) => col.headerName && col.excelExport !== false)
+                .map((col) => row[col.field] || "")
         );
     
-        // Veriyi birleştir
-        const worksheetData = [headers, ...data];
-    
-        // Excel sayfasını oluştur
+        // Excel sayfasını oluşturun
+        const worksheetData = [columnHeaders, ...exportData];
         const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
     
-        // Yeni bir çalışma kitabı oluştur
+        // Excel dosyasını oluşturun
         const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Park Sessions");
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Hgs Payment History");
     
-        // Dosyayı dışa aktar
-        XLSX.writeFile(workbook, "ParkSessions.xlsx");
+        // Excel dosyasını indirin
+        XLSX.writeFile(workbook, "HgsPaymentHistory.xlsx");
     };
 
+
     const [columnDefs] = useState([
-        { field: "id", headerName: "Id", sortable: true, type: "number", filter: 'agSetColumnFilter' },
-        { field: "plateNumber", headerName: "Plaka", sortable: true, type: "number", filter: 'agSetColumnFilter' },
-        { field: "vehicleBodyStyle", headerName: "Araç Gövde Tipi", sortable: false, filter: 'agSetColumnFilter' },
-        { field: "startedAt", headerName: "Başlangıç Tarihi", sortable: true, type: "number", filter: 'agSetColumnFilter' },
-        { field: "endedAt", headerName: "Bitiş Tarihi", sortable: true, type: "number", filter: 'agSetColumnFilter' },
-        { field: "parkingTime", headerName: "Park Süresi", sortable: false, filter: 'agSetColumnFilter' },
+        { field: "createdAt", headerName: "Oluşturulma Tarihi", sortable: true, type: "number", filter: 'agSetColumnFilter' },
+        { field: "plate", headerName: "Plaka", sortable: true, type: "number", filter: 'agSetColumnFilter' },
         { field: "paymentAmount", headerName: "Ödeme Tutarı", sortable: false, filter: 'agSetColumnFilter' },
-        { field: "paymentStatus", headerName: "Ödeme Durumu", sortable: false, filter: 'agSetColumnFilter' },
+        { field: "paymentStatus", headerName: "Ödeme Durumu", sortable: true, type: "number", filter: 'agSetColumnFilter' },
+        { field: "lastTry", headerName: "Son Deneme", sortable: true, type: "number", filter: 'agSetColumnFilter' },
+        { field: "paymentStatusId", headerName: "Ödeme ID", sortable: true, type: "number", filter: 'agSetColumnFilter' },
         {
             headerName: "",
             cellRenderer: (params) => (
-                <div style={{ width: "100%", height: "100%" }}>
-                    <img src={params.data.entryPlatePhoto} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <div className={styles.rtBtn}>
+                    <button
+                        className={styles.returnBtn}
+                        onClick={() => openReturnPopup(params.data)}
+                        style={{ marginRight: 5 }}
+                    >
+                        <CiEdit />
+                    </button>
                 </div>
             ),
-            width: 220
+            // Excel dışa aktarıma dahil etmiyoruz
+            excelExport: false,
+            width: 100
         },
     ]);
 
@@ -116,63 +137,71 @@ const ParkSession = () => {
     };
 
 
-    const fetchParkData = async (page = null, perPage = 10) => {
+    const fetchParkData = async (page = pageNumber, perPage = 10) => {
         if (!accessToken) return;
 
         try {
             setIsLoading(true);
 
             // İlk yüklemede toplam sayfa sayısını al ve son sayfanın verisini getir
-            if (!page) {
+            /* if (!page) { */ 
                 const response = await axios.get(
-                    `https://app.toger.co/api/v2/park/3/sessions`,
+                    `https://app.toger.co/api/v2/park/12/payment-history`,
                     {
                         headers: { Authorization: `Bearer ${accessToken}` },
                     }
                 );
 
+                console.log(response)
+
                 const totalPageCount = response.data.data.last_page;
                 setTotalPages(totalPageCount);
 
-                // İlk yüklemede son sayfayı getir
-                page = totalPageCount;
-            }
+                console.log(totalPages)
+
+                /* // İlk yüklemede son sayfayı getir
+                page = totalPageCount; */
+
+                /* const response2 = await axios.get(
+                    `https://app.toger.co/api/v2/park/12/reports/`,
+                    {
+                        headers: { Authorization: `Bearer ${accessToken}` },
+                    }
+                );
+
+                console.log(response2) */
+                
+            /* } */
 
             console.log(perPage)
             // Sayfa numarasına göre veri getir
             const pageResponse = await axios.get(
-                `https://app.toger.co/api/v2/park/3/sessions?page=${page}&per_page=${perPage}`,
+                `https://app.toger.co/api/v2/park/12/payment-history?page=${page}&per_page=${perPage}`,
                 { headers: { Authorization: `Bearer ${accessToken}` } }
             );
+
+            console.log(pageResponse)
 
             // Gelen veriyi tabloya uygun şekilde düzenle
             const mappedData = pageResponse.data.data.data.map((session) => ({
                 id: session.id,
-                plateNumber: session.plateNumber || "Belirtilmedi",
-                vehicleBodyStyle: session.vehicleBodyStyle || "Belirtilmedi",
-                startedAt: session.startedAt
-                    ? new Date(session.startedAt).toLocaleString()
-                    : "Belirtilmedi",
-                endedAt: session.endedAt
-                    ? new Date(session.endedAt).toLocaleString()
-                    : "Devam ediyor",
-                parkingTime:
-                    session.startedAt && session.endedAt
-                        ? calculateParkingTime(session.startedAt, session.endedAt)
-                        : "Devam ediyor",
+                plate: session.plate || "Belirtilmedi",
                 paymentAmount: session.paymentAmount
                     ? `${session.paymentAmount} ₺`
                     : "Belirtilmedi",
-                paymentStatus: session.status || "Belirtilmedi",
-                entryPlatePhoto: session.entryPlatePhoto
+                paymentStatus: session.paymentStatus,
+                lastTry: session.lastTry,
+                paymentStatusId: session.paymentStatusId
             }));
 
             setRowData(mappedData); // Tabloya veriyi aktar
-            setCurrentPage(page);   // Geçerli sayfayı ayarla
+            /* setCurrentPage(page); */   // Geçerli sayfayı ayarla
+            setPageNumber(page);   // Geçerli sayfayı ayarla
 
             console.log("Güncel Veriler:", mappedData);
             console.log("Toplam Sayfalar:", totalPages);
             console.log("Mevcut Sayfa:", currentPage);
+            console.log("Mevcut Sayfa:", pageNumber);
         } catch (err) {
             console.error("Park verilerine erişim hatası:", err.response?.data || err.message);
         } finally {
@@ -180,13 +209,13 @@ const ParkSession = () => {
         }
     };
 
-    const goToFirstPage = () => {
+    /* const goToLastPage = () => {
         // Ters sayfalama: Toplam sayfaya doğru ilerle
         fetchParkData(totalPages);
         setPageNumber(1);
     };
 
-    const goToNextPage = () => {
+    const goToPreviousPage = () => {
         // Ters sayfalama: Toplam sayfadan 1 çıkar ve geriye doğru ilerle
         if (currentPage > 1) {
             const nextPage = currentPage - 1;
@@ -195,7 +224,7 @@ const ParkSession = () => {
         }
     };
 
-    const goToPreviousPage = () => {
+    const goToNextPage = () => {
         // Ters sayfalama: Toplam sayfaya doğru ilerle
         if (currentPage < totalPages) {
             const previousPage = currentPage + 1;
@@ -204,23 +233,44 @@ const ParkSession = () => {
         }
     };
 
-    const goToLastPage = () => {
+    const goToFirstPage = () => {
         // Ters sayfalama: Toplam sayfaya doğru ilerle
         fetchParkData(1);
         setPageNumber(totalPages);
+    }; */
+
+    const goToFirstPage = () => {
+        // Ters sayfalama: Toplam sayfaya doğru ilerle
+        fetchParkData(1);
+        setPageNumber(1);
     };
 
-    const calculateParkingTime = (start, end) => {
-        const diffMs = new Date(end) - new Date(start);
-        const hours = Math.floor(diffMs / (1000 * 60 * 60));
-        const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diffMs % (1000 * 60)) / 1000);
+    const goToNextPage = () => {
+        // Ters sayfalama: Toplam sayfadan 1 çıkar ve geriye doğru ilerle
+        if (pageNumber < totalPages) {
+            const nextPage = pageNumber + 1;
+            fetchParkData(nextPage);
+            setPageNumber(pageNumber + 1);
+        }
+    };
 
-        return `${hours > 0 ? `${hours}:` : "00:"}${minutes > 0 && minutes < 10 ? `0${minutes}:` : `${minutes}:`}${seconds > 0 && seconds < 10 ? `0${seconds}` : seconds}`;
+    const goToPreviousPage = () => {
+        // Ters sayfalama: Toplam sayfaya doğru ilerle
+        if (pageNumber > 1) {
+            const previousPage = pageNumber - 1;
+            fetchParkData(previousPage);
+            setPageNumber(pageNumber - 1);
+        }
+    };
+
+    const goToLastPage = () => {
+        // Ters sayfalama: Toplam sayfaya doğru ilerle
+        fetchParkData(totalPages);
     };
 
     console.log(currentPage);
     console.log(totalPages);
+    console.log(pageNumber);
 
 
     useEffect(() => {
@@ -313,7 +363,7 @@ const ParkSession = () => {
                                         <select onChange={(e) => {
                                             const newPerPage = parseInt(e.target.value, 10); // Seçilen değeri al ve sayıya çevir
                                             setPerPage(newPerPage); // perPage'i güncelle
-                                            fetchParkData(currentPage, newPerPage); // Güncellenmiş perPage ile veriyi tekrar getir
+                                            fetchParkData(pageNumber, newPerPage); // Güncellenmiş perPage ile veriyi tekrar getir
                                         }} name="" data-ref="eDisplayField" className="ag-picker-field-display" id="ag-12-display" style={{ color: "#fff", listStyle: "none", border: "none", width: "90%", height: "100%" }}>
                                             <option value="10">10</option>
                                             <option value="20">20</option>
@@ -347,4 +397,4 @@ const ParkSession = () => {
     );
 };
 
-export default ParkSession;
+export default HgsPaymentHistory;

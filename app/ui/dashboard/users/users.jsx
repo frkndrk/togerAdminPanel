@@ -2,11 +2,13 @@
 import { useRef, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-quartz.css";
-import 'ag-grid-enterprise';
+import "ag-grid-community/styles/ag-theme-quartz.css";/* 
+import 'ag-grid-enterprise'; */
 import styles from "./users.module.css"
 import { CiEdit } from "react-icons/ci";
 import { AiOutlineDelete } from "react-icons/ai";
+
+import * as XLSX from "xlsx";
 
 const Users = () => {
 
@@ -146,13 +148,38 @@ const Users = () => {
     };
 
     // Excel Buton Fonksiyonu
-    const handleExport = () => {
+/*     const handleExport = () => {
         if (gridApi.current) {
             gridApi.current.exportDataAsExcel();  // API üzerinden Excel dışa aktar
             console.log()
         }
-    };
+    }; */
 
+    const handleExport = () => {
+        if (!rowData || rowData.length === 0) {
+            alert("Dışa aktarılacak veri bulunamadı!");
+            return;
+        }
+    
+        // 1. Excel için uygun formatta veri oluştur
+        const formattedData = rowData.map((row) => ({
+            "Oluşturulma Tarihi": row.olusturulmaTarihi,
+            "Ad": row.ad,
+            "Soyad": row.soyad,
+            "Telefon": row.telefon,
+            "E-Mail": row.email,
+        }));
+    
+        // 2. Yeni bir çalışma kitabı (worksheet) oluştur
+        const worksheet = XLSX.utils.json_to_sheet(formattedData);
+    
+        // 3. Çalışma kitabını (workbook) oluştur
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Kullanıcılar");
+    
+        // 4. Dosyayı indirilebilir hale getir
+        XLSX.writeFile(workbook, "Kullanıcılar.xlsx");
+    };
 
     return (
         <div className={styles.container}>

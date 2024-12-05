@@ -29,13 +29,13 @@
     color: #fff;
 }
 
-.edBtn{
+.rtBtn{
     display: flex;
     justify-content: start;
     margin-top: 5px;
 }
 
-.editBtn{
+.returnBtn{
     height: 30px;
     border-radius: 10px;
     background-color: #2e374a;

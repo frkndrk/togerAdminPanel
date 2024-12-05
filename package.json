@@ -20,7 +20,8 @@
     "react-dom": "18",
     "react-dom-factories": "^1.0.2",
     "react-icons": "^4.11.0",
-    "recharts": "^2.9.0"
+    "recharts": "^2.9.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "eslint": "8",

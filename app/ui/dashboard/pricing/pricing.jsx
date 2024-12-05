@@ -9,6 +9,8 @@ import { AiOutlineDelete } from "react-icons/ai";
 import styles from "./pricing.module.css"
 import axios from 'axios';
 
+import * as XLSX from "xlsx";
+
 const Pricing = () => {
 
     const gridApi = useRef(null);  // Grid API için referans ekliyoruz
@@ -172,12 +174,37 @@ const Pricing = () => {
 
 
     // Excel Buton Fonksiyonu
-    const handleExport = () => {
+/*     const handleExport = () => {
         if (gridApi.current) {
             gridApi.current.exportDataAsExcel();  // API üzerinden Excel dışa aktar
             console.log()
         }
+    }; */
+
+    const handleExport = () => {
+        if (!rowData || rowData.length === 0) {
+            alert("Dışa aktarılacak veri bulunamadı!");
+            return;
+        }
+    
+        // Verileri Excel için formatlama
+        const formattedData = rowData.map((row) => ({
+            "Süre": row.time,
+            "Araç Gövde Tipi": row.vehicleBodyType,
+            "Başlangıç (dk)": row.startMin,
+            "Bitiş (dk)": row.finishMin,
+            "Fiyat": row.price,
+        }));
+    
+        // Yeni çalışma sayfası ve kitap oluşturma
+        const worksheet = XLSX.utils.json_to_sheet(formattedData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Fiyatlandırma");
+    
+        // Excel dosyasını yazma ve indirme
+        XLSX.writeFile(workbook, "Fiyatlandırma.xlsx");
     };
+
 
     ///
     const [rowData, setRowData] = useState([]);
