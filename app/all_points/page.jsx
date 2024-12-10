@@ -9,10 +9,6 @@ import { usePathname } from "next/navigation";
 
 const AllPointsPage = () => {
 
-  const pathname = usePathname()
-
-  console.log(pathname)
-
   const [accessToken, setAccessToken] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [rowData, setRowData] = useState([]);
