@@ -1,5 +1,5 @@
-import HgsManagement from '@/app/ui/dashboard/hgsManagement/hgsManagement'
-import styles from "@/app/ui/dashboard/hgsManagement/hgsManagement.module.css"
+import HgsManagement from '../../ui/dashboard/hgsManagement/hgsManagement'
+import styles from "../../ui/dashboard/hgsManagement/hgsManagement.module.css"
 
 const HgsManagementPage = () => {
     return (

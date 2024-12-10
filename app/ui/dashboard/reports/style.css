@@ -1,0 +1,43 @@
+.css-175e1i1-MuiChartsAxis-root-MuiChartsYAxis-root .MuiChartsAxis-line {
+    stroke: rgba(255, 255, 255, 1.87) !important;
+    shape-rendering: crispEdges;
+    stroke-width: 1;
+}
+
+.css-1x2wln8-MuiChartsAxis-root-MuiChartsXAxis-root .MuiChartsAxis-line {
+    stroke: rgba(255, 255, 255, 1.87) !important;
+    shape-rendering: crispEdges;
+    stroke-width: 1;
+}
+
+.css-175e1i1-MuiChartsAxis-root-MuiChartsYAxis-root .MuiChartsAxis-tickLabel {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    font-size: 0.75rem;
+    line-height: 1.66;
+    letter-spacing: 0.03333em;
+    fill: rgba(255, 255, 255, 1.87) !important;
+}
+
+.css-1x2wln8-MuiChartsAxis-root-MuiChartsXAxis-root .MuiChartsAxis-tickLabel {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    font-size: 0.75rem !important;
+    line-height: 1.66 !important;
+    letter-spacing: 0.03333em;
+    fill: rgba(255, 255, 255, 1.87) !important;
+}
+
+.css-1x2wln8-MuiChartsAxis-root-MuiChartsXAxis-root .MuiChartsAxis-tick {
+    stroke: rgba(255, 255, 255, 1.87) !important;
+    shape-rendering: crispEdges;
+}
+
+.css-175e1i1-MuiChartsAxis-root-MuiChartsYAxis-root .MuiChartsAxis-tick {
+    stroke: rgba(255, 255, 255, 1.87) !important;
+    shape-rendering: crispEdges;
+}
+ tspan{
+    fill: rgba(255, 255, 255, 1.87) !important;
+    font-size: 12px  !important;
+ }

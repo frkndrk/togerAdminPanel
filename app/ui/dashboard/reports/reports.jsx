@@ -1,10 +1,21 @@
-"use client";
+/* "use client";
+"use strict"; */
+
+
+import * as React from 'react';
+import { BarChart } from '@mui/x-charts/BarChart';
+
+
+import styles from "./reports.module.css"
+import "./style.css"
+
+/* "use client";
 import { useEffect, useState } from "react";
 import styles from "./reports.module.css"
-import axios from 'axios';
+import axios from 'axios'; */
+
 
 const Reports = () => {
-
 
     /* const [accessToken, setAccessToken] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -62,7 +73,11 @@ const Reports = () => {
             }
         };
         fetchData(); // İçerideki asenkron işlemi çağırıyoruz
-    }, [accessToken]); */
+    }, [accessToken]);
+
+ */
+
+
     return (
         <div className={styles.container}>
             <div className={styles.dateCont}>
@@ -86,7 +101,25 @@ const Reports = () => {
                 </div>
             </div>
             <div className={styles.graphicsCont}>
-
+                <div className={styles.completedChart}>
+                    <h3 className={styles.header}>Tamamlanan Parklar</h3>
+                    <BarChart
+                        xAxis={[{ scaleType: 'band', data: ['2024-11-30', '2024-12-01', '2024-12-02', '2024-12-03', '2024-12-04'] }]}
+                        series={[
+                            { data: [2.0, 1.0, 3.1, 2, 1.2 ], color: '#35f1b5', label: "Ended Sessions" }
+                        ]}
+                    />
+                </div>
+                <div className={styles.paymentsChart}>
+                    <h3 className={styles.header}>Ödemeler</h3>
+                    <BarChart
+                        xAxis={[{ scaleType: 'band', data: ['2024-11-30', '2024-12-01', '2024-12-02'] }]}
+/*                         series={[
+                            { data: [2.0, 1.0, 3.1, 2, 1.2 ], color: '#fdb462', label: "Ended Sessions" }
+                        ]} */
+                        series={[{ data: [4, 3, 5], color: '#235fe0', label: "Ciro" }, { data: [2, 6, 3], color: '#35bff1', label: "Başarılı Çekim" }, { data: [0, 0, 1], color: '#e96048', label: "Başarısız Çekim" }]}
+                    />
+                </div>
             </div>
         </div>
     )

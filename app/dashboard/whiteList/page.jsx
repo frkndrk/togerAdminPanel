@@ -1,5 +1,5 @@
-import WhiteList from "@/app/ui/dashboard/whiteList/whiteList"
-import styles from "@/app/ui/dashboard/whiteList/whiteList.module.css"
+import WhiteList from "../../ui/dashboard/whiteList/whiteList"
+import styles from "../../ui/dashboard/whiteList/whiteList.module.css"
 
 const UsersPage = () => {
   return (

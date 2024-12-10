@@ -1,0 +1,127 @@
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loginSide {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.header{
+    margin-bottom: 50px;
+    color: rgb(20, 173, 78);
+    width: 300px;
+    text-align: center;
+}
+
+.footer{
+    position: absolute;
+    bottom: 30px;
+}
+
+.form {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    width: 300px;
+}
+
+.form * {
+    outline: none;
+    border: none;
+}
+
+.form label {
+    margin-bottom: 10px;
+    color: #fff;
+    font-weight: bold;
+}
+
+.form input {
+    height: 50px;
+    border-radius: 10px;
+    width: 100%;
+    padding-left: 10px;
+    border-bottom: 4px solid rgb(20, 173, 78);
+}
+
+
+.form input:focus {
+    border: 4px solid rgb(20, 173, 78);
+    outline: 4px solid rgb(20, 173, 78);
+}
+
+
+#text{
+    margin-bottom: 20px;
+}
+
+.form button {
+    height: 50px;
+    width: 50%;
+    border-radius: 10px;
+    transform: translate(50%, 0%);
+    margin-top: 20px;
+    color: rgb(20, 173, 78);
+    font-weight: bold;
+    font-size: 16px;
+    border-bottom: 4px solid rgb(20, 173, 78);
+}
+
+.form button:focus {
+    border: 4px solid rgb(20, 173, 78);
+    outline: 4px solid rgb(20, 173, 78);
+    background-color: rgb(223, 249, 233) ;
+}
+
+.slideContainer {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 95%;
+    background-color: rgb(20, 173, 78);
+    border-radius: 20px;
+    margin: 20px;
+    position: relative;
+    overflow: hidden;
+    flex-direction: column;
+    gap: 100px;
+}
+
+.svgCont{
+    position: absolute;
+    top: 100px;
+}
+
+.chargingStation{
+    width: 100%;
+    height: 300px;
+    z-index: 11;
+    border-top: 10px solid var(--bg);
+    position: absolute;
+    bottom: 0;
+}
+
+.circle{
+    position: absolute;
+    width: 120%;
+    height: 120%;
+    border-radius: 50%;
+    border: 230px solid rgb(20, 173, 78);
+    bottom: -750px;
+    left: -70px;
+    z-index: -1;
+
+}

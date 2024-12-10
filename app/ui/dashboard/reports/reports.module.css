@@ -1,6 +1,7 @@
 .container{
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .dateCont{
@@ -26,13 +27,13 @@
 
 .valuesCont{
     display: flex;
-    justify-content: start;
+    justify-content: space-between;
     align-items: center;
     gap: 20px;
 }
 
 .value{
-    width: 300px;
+    flex: 1;
     height: 150px;
     margin-top: 20px;
     border-radius: 10px;
@@ -51,7 +52,6 @@
 }
 
 .graphicsCont{
-    width: 940px;
     height: 400px;
     margin-top: 20px;
     border-radius: 10px;
@@ -60,25 +60,23 @@
     color: #fff;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: start;
+}
+
+.completedChart{
+    display: flex;
     flex-direction: column;
-
+    flex: 1;
+    height: 100%;
 }
 
-/* .weekly{
-    width: 200px;
-    height: 100px;
-    background-color: aqua;
+.paymentsChart{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
 }
 
-.monthly{
-    width: 200px;
-    height: 100px;
-    background-color: aqua;
+.header{
+    margin: 10px 0 0 20px;
 }
-
-.specialDate{
-    width: 200px;
-    height: 100px;
-    background-color: aqua;
-} */

@@ -1,4 +1,4 @@
-import styles from "@/app/ui/dashboard/users/users.module.css"
+import styles from "../../ui/dashboard/users/users.module.css"
 import Users from "../../ui/dashboard/users/users"
 
 const UsersPage = () => {

@@ -1,5 +1,5 @@
-import ParkSessions from "@/app/ui/dashboard/parkSessions/parkSessions"
-import styles from "@/app/ui/dashboard/parkSessions/parkSessions.module.css"
+import ParkSessions from "../../ui/dashboard/parkSessions/parkSessions"
+import styles from "../../ui/dashboard/parkSessions/parkSessions.module.css"
 
 const ParkSessionPage = () => {
     return (

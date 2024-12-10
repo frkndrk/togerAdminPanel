@@ -1,5 +1,5 @@
-import Pricing from "@/app/ui/dashboard/pricing/pricing";
-import styles from "@/app/ui/dashboard/pricing/pricing.module.css"
+import Pricing from "../../ui/dashboard/pricing/pricing";
+import styles from "../../ui/dashboard/pricing/pricing.module.css"
 
 const PricingPage = () => {
 

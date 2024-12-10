@@ -1,0 +1,54 @@
+.container{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.mainCont{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: calc(100vh - 80px);
+}
+
+.mapCont{
+    flex: 8;
+    height: 100%;
+}
+
+.allPointsCont{
+    flex: 2;
+    height: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.header{
+    margin: 15px 0 0 15px;
+}
+
+.points{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 10px;
+    margin-left: 10px;
+}
+
+.icon{
+}
+
+.pointHeader{
+    font-size: 20px;
+    padding: 10px;
+    background-color: #2e374a;
+    border-radius: 10px;
+}
+

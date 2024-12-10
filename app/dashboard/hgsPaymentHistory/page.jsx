@@ -1,5 +1,5 @@
-import HgsPaymentHistory from "@/app/ui/dashboard/hgsPaymentHistory/hgsPaymentHistory";
-import styles from "@/app/ui/dashboard/hgsPaymentHistory/hgsPaymentHistory.module.css"
+import HgsPaymentHistory from "../../ui/dashboard/hgsPaymentHistory/hgsPaymentHistory";
+import styles from "../../ui/dashboard/hgsPaymentHistory/hgsPaymentHistory.module.css"
 
 const HgsPaymentHistoryPage = () => {
   return (

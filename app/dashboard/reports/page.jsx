@@ -1,5 +1,5 @@
-import Reports from '@/app/ui/dashboard/reports/reports'
-import styles from "@/app/ui/dashboard/reports/reports.module.css"
+import Reports from '../../ui/dashboard/reports/reports'
+import styles from "../../ui/dashboard/reports/reports.module.css"
 
 const page = () => {
   return (

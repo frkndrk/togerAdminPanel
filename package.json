@@ -9,7 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ag-grid-community/client-side-row-model": "^32.3.3",
+    "@ag-grid-community/core": "^32.3.3",
+    "@ag-grid-community/react": "^32.3.3",
+    "@ag-grid-enterprise/charts-enterprise": "^32.3.3",
+    "@ag-grid-enterprise/menu": "^32.3.3",
+    "@ag-grid-enterprise/row-grouping": "^32.3.3",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.1.10",
+    "@mui/material": "^6.1.10",
+    "@mui/x-charts": "^7.23.1",
     "@next/eslint-plugin-next": "14.0.1",
+    "ag-grid-charts-enterprise": "^32.3.3",
     "ag-grid-community": "^32.3.3",
     "ag-grid-enterprise": "^32.3.3",
     "ag-grid-react": "^32.3.3",
@@ -24,6 +36,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "@types/node": "22.10.1",
     "eslint": "8",
     "eslint-config-next": "14.0.1"
   },
