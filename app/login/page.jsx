@@ -7,6 +7,8 @@ import axios from "axios";
 const LoginPage = () => {
   const router = useRouter();
 
+  const [accessToken, setAccessToken] = useState(null);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -21,6 +23,10 @@ const LoginPage = () => {
       });
 
       if (response.status === 200) {
+        const token = response.data.data.token;
+        if (token) {
+          setAccessToken(token);
+        }
         router.push("/all_points"); // Başarılı giriş sonrası yönlendirme
       } else {
         console.error("Login failed: ", response.data.message);
