@@ -5,15 +5,29 @@ import styles from "../ui/all_points/allPoints.module.css"
 import Navbar from "../ui/dashboard/navbar/navbar"
 import iconD from "../../public/icons8-location-color-32.png"
 import axios from "axios";
-import { usePathname } from "next/navigation";
+
+import { useContext } from 'react';
+import { AuthContext } from '.././authContext';
+import { useRouter } from "next/navigation";
 
 const AllPointsPage = () => {
 
-  const [accessToken, setAccessToken] = useState(null);
+  const router = useRouter();
+/* 
+  const [accessToken, setAccessToken] = useState(null); */
   const [isLoading, setIsLoading] = useState(true);
   const [rowData, setRowData] = useState([]);
 
-  const authenticateUser = async () => {
+
+
+  const { accessToken } = useContext(AuthContext);
+
+  const { setPointId } = useContext(AuthContext); 
+
+  // Use the accessToken here
+  console.log(accessToken);
+
+/*   const authenticateUser = async () => {
     try {
       const response = await axios.post("https://app.toger.co/api/v2/auth", {
         email: "partnertest@gmail.com",
@@ -27,7 +41,7 @@ const AllPointsPage = () => {
     } catch (err) {
       console.error("Doğrulama hatası:", err.response?.data || err.message);
     }
-  };
+  }; */
 
   const fetchParkData = async () => {
     if (!accessToken) return;
@@ -90,7 +104,7 @@ const AllPointsPage = () => {
       setIsLoading(true);
 
       if (!accessToken) {
-        await authenticateUser(); // Access token yoksa yenile
+        alert("Üzgünüm tekrar deneyin!"); // Access token yoksa yenile
       }
 
       if (accessToken) {
@@ -409,6 +423,13 @@ const AllPointsPage = () => {
     }
   }, [rowData]);
 
+  const handlePoint = (id) => {
+    setPointId(id);
+    router.push("/dashboard");
+  }
+
+
+
   return (
     <div className={styles.container}>
       <Navbar />
@@ -420,7 +441,7 @@ const AllPointsPage = () => {
           <h1 className={styles.header}>Tüm Noktalar</h1>
           {rowData.map(item => (
             <div key={item.id}>
-              <div className={styles.points}>
+              <div onClick={() => handlePoint(item.id)} className={styles.points}>
                 <img className={styles.icon} src={iconD.src} alt="" />
                 <span className={styles.pointHeader}>{item.name}</span>
               </div>

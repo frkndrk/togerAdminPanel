@@ -3,11 +3,14 @@
 import styles from "../ui/login/login.module.css";
 import { useRouter } from "next/navigation"; // next/navigation kullanılıyor
 import axios from "axios";
+import { useContext } from 'react';
+import { AuthContext } from '.././authContext';
 
 const LoginPage = () => {
   const router = useRouter();
+  const { setAccessToken } = useContext(AuthContext);
 
-  const [accessToken, setAccessToken] = useState(null);
+ /*  const [accessToken, setAccessToken] = useState(null); */
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -25,9 +28,9 @@ const LoginPage = () => {
       if (response.status === 200) {
         const token = response.data.data.token;
         if (token) {
-          setAccessToken(token);
+          setAccessToken(token); // Update accessToken using context
         }
-        router.push("/all_points"); // Başarılı giriş sonrası yönlendirme
+        router.push("/all_points"); // Successful login redirection
       } else {
         console.error("Login failed: ", response.data.message);
       }
