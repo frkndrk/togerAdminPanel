@@ -9,9 +9,6 @@ export const AuthContext = createContext({
   setPointId: () => {},
 });
 
-/* export const EnterPoint = createContext({
-
-}); */
 
 export const AuthProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState(null);

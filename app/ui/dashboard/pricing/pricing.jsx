@@ -11,7 +11,14 @@ import axios from 'axios';
 
 import * as XLSX from "xlsx";
 
+
+import { useContext } from 'react';
+import { AuthContext } from '../../../authContext';
+
 const Pricing = () => {
+
+    const { accessToken, pointId } = useContext(AuthContext);
+    console.log("kullanıcı sayfası point id:", pointId)
 
     const gridApi = useRef(null);  // Grid API için referans ekliyoruz
     const gridColumnApi = useRef(null);  // Column API için referans
@@ -235,11 +242,11 @@ const Pricing = () => {
     ]);
 
     const [email] = useState("partnertest@gmail.com");
-    const [password] = useState("Partner@123");
-    const [accessToken, setAccessToken] = useState(null);
+    const [password] = useState("Partner@123");/* 
+    const [accessToken, setAccessToken] = useState(null); */
     const [error, setError] = useState(null);
 
-    // Kullanıcı doğrulaması yap
+    /* // Kullanıcı doğrulaması yap
     const authenticateUser = async () => {
         try {
             const response = await axios.post("https://app.toger.co/api/v2/auth", {
@@ -261,16 +268,16 @@ const Pricing = () => {
             console.error("Doğrulama hatası:", err.response ? err.response.data : err.message);
             setError("Doğrulama başarısız.");
         }
-    };
+    }; */
 
     const [lastFinishMin, setLastFinishMin] = useState(null); // Son finishMin değerini tutmak için
     console.log(lastFinishMin)
 
-    const fetchParkData = async (token) => {
+    const fetchParkData = async () => {
         try {
-            const response = await axios.get(`https://app.toger.co/api/v2/park/12/pricing`, {
+            const response = await axios.get(`https://app.toger.co/api/v2/park/${pointId}/pricing`, {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${accessToken}`,
                 },
             });
 
@@ -318,12 +325,8 @@ const Pricing = () => {
     };
 
 
-    useEffect(() => {
+/*     useEffect(() => {
         const fetchData = async () => {
-            if (!accessToken) {  // Eğer accessToken yoksa, doğrulama işlemi yap
-                await authenticateUser();
-            }
-
             if (accessToken) {  // Eğer accessToken varsa, park verilerini çek
                 console.log("Access Token alındı:", accessToken);
                 fetchParkData(accessToken);
@@ -333,7 +336,11 @@ const Pricing = () => {
         };
 
         fetchData();
-    }, [accessToken]); // Sadece accessToken değiştiğinde çalışacak
+    }, [accessToken]); // Sadece accessToken değiştiğinde çalışacak */
+
+    useEffect(() => {
+        if (accessToken) fetchParkData();
+      }, [accessToken]);
 
     return (
         <div className={styles.container}>

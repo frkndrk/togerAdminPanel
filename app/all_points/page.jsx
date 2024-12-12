@@ -18,11 +18,10 @@ const AllPointsPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [rowData, setRowData] = useState([]);
 
+  const [loading, setLoading] = useState(false);
 
 
-  const { accessToken } = useContext(AuthContext);
-
-  const { setPointId } = useContext(AuthContext); 
+  const { accessToken, setPointId } = useContext(AuthContext);
 
   // Use the accessToken here
   console.log(accessToken);
@@ -100,18 +99,7 @@ const AllPointsPage = () => {
   console.log(rowData)
 
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-
-      if (!accessToken) {
-        alert("Üzgünüm tekrar deneyin!"); // Access token yoksa yenile
-      }
-
-      if (accessToken) {
-        await fetchParkData(); // Burada üstte tanımlı fetchParkData çağrılıyor
-      }
-    };
-    fetchData(); // İçerideki asenkron işlemi çağırıyoruz
+    if (accessToken) fetchParkData();
   }, [accessToken]);
 
   useEffect(() => {
@@ -424,10 +412,10 @@ const AllPointsPage = () => {
   }, [rowData]);
 
   const handlePoint = (id) => {
+    setLoading(true);
     setPointId(id);
-    router.push("/dashboard");
-  }
-
+    router.push(`/dashboard?pointId=${id}`); // pointId ile yönlendirme
+  };
 
 
   return (
@@ -439,14 +427,18 @@ const AllPointsPage = () => {
         </div>
         <div className={styles.allPointsCont}>
           <h1 className={styles.header}>Tüm Noktalar</h1>
-          {rowData.map(item => (
-            <div key={item.id}>
-              <div onClick={() => handlePoint(item.id)} className={styles.points}>
-                <img className={styles.icon} src={iconD.src} alt="" />
-                <span className={styles.pointHeader}>{item.name}</span>
+          {loading ? (
+            <p>Yükleniyor...</p>
+          ) : (
+            rowData.map((item) => (
+              <div key={item.id}>
+                <div onClick={() => handlePoint(item.id)} className={styles.points}>
+                  <img className={styles.icon} src={iconD.src} alt="" />
+                  <span className={styles.pointHeader}>{item.name}</span>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
     </div>

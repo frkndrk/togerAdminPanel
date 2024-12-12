@@ -9,16 +9,26 @@ import "../../../../.next/static/css/app/dashboard/parkSessions/page.css" */
 
 import * as XLSX from "xlsx";
 
+
+import { useContext } from 'react';
+import { AuthContext } from '../../../authContext';
+
 const ParkSession = () => {
+
+    const { accessToken, pointId } = useContext(AuthContext);
+    console.log("kullanıcı sayfası point id:", pointId)
+
     const gridColumnApi = useRef(null);
     const [gridApi, setGridApi] = useState(null);
     const [rowData, setRowData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageNumber, setPageNumber] = useState(1);
-    const [totalPages, setTotalPages] = useState(0);
-    const [accessToken, setAccessToken] = useState(null);
+    const [totalPages, setTotalPages] = useState(0);/* 
+    const [accessToken, setAccessToken] = useState(null); */
     const [perPage, setPerPage] = useState(10)
+
+    
 
 
     const onGridReady = (params) => {
@@ -99,7 +109,7 @@ const ParkSession = () => {
         },
     ]);
 
-    const authenticateUser = async () => {
+/*     const authenticateUser = async () => {
         try {
             const response = await axios.post("https://app.toger.co/api/v2/auth", {
                 email: "partnertest@gmail.com",
@@ -114,7 +124,7 @@ const ParkSession = () => {
             console.error("Doğrulama hatası:", err.response?.data || err.message);
         }
     };
-
+ */
 
     const fetchParkData = async (page = null, perPage = 10) => {
         if (!accessToken) return;
@@ -125,7 +135,7 @@ const ParkSession = () => {
             // İlk yüklemede toplam sayfa sayısını al ve son sayfanın verisini getir
             if (!page) {
                 const response = await axios.get(
-                    `https://app.toger.co/api/v2/park/3/sessions`,
+                    `https://app.toger.co/api/v2/park/${pointId}/sessions`,
                     {
                         headers: { Authorization: `Bearer ${accessToken}` },
                     }
@@ -141,7 +151,7 @@ const ParkSession = () => {
             console.log(perPage)
             // Sayfa numarasına göre veri getir
             const pageResponse = await axios.get(
-                `https://app.toger.co/api/v2/park/3/sessions?page=${page}&per_page=${perPage}`,
+                `https://app.toger.co/api/v2/park/${pointId}/sessions?page=${page}&per_page=${perPage}`,
                 { headers: { Authorization: `Bearer ${accessToken}` } }
             );
 
@@ -222,7 +232,7 @@ const ParkSession = () => {
     console.log(currentPage);
     console.log(totalPages);
 
-
+/* 
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
@@ -236,7 +246,11 @@ const ParkSession = () => {
             }
         };
         fetchData(); // İçerideki asenkron işlemi çağırıyoruz
-    }, [accessToken]);
+    }, [accessToken]); */
+
+    useEffect(() => {
+        if (accessToken) fetchParkData();
+      }, [accessToken]);
 
 
     const gridOptions = {

@@ -10,7 +10,14 @@ import { AiOutlineDelete } from "react-icons/ai";
 
 import * as XLSX from "xlsx";
 
+
+import { useContext } from 'react';
+import { AuthContext } from '../../../authContext';
+
 const Users = () => {
+
+    const { pointId } = useContext(AuthContext);
+    console.log("kullanıcı sayfası point id:", pointId)
 
     const gridApi = useRef(null);  // Grid API için referans ekliyoruz
     const gridColumnApi = useRef(null);  // Column API için referans
@@ -148,19 +155,19 @@ const Users = () => {
     };
 
     // Excel Buton Fonksiyonu
-/*     const handleExport = () => {
-        if (gridApi.current) {
-            gridApi.current.exportDataAsExcel();  // API üzerinden Excel dışa aktar
-            console.log()
-        }
-    }; */
+    /*     const handleExport = () => {
+            if (gridApi.current) {
+                gridApi.current.exportDataAsExcel();  // API üzerinden Excel dışa aktar
+                console.log()
+            }
+        }; */
 
     const handleExport = () => {
         if (!rowData || rowData.length === 0) {
             alert("Dışa aktarılacak veri bulunamadı!");
             return;
         }
-    
+
         // 1. Excel için uygun formatta veri oluştur
         const formattedData = rowData.map((row) => ({
             "Oluşturulma Tarihi": row.olusturulmaTarihi,
@@ -169,14 +176,14 @@ const Users = () => {
             "Telefon": row.telefon,
             "E-Mail": row.email,
         }));
-    
+
         // 2. Yeni bir çalışma kitabı (worksheet) oluştur
         const worksheet = XLSX.utils.json_to_sheet(formattedData);
-    
+
         // 3. Çalışma kitabını (workbook) oluştur
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Kullanıcılar");
-    
+
         // 4. Dosyayı indirilebilir hale getir
         XLSX.writeFile(workbook, "Kullanıcılar.xlsx");
     };

@@ -1,5 +1,5 @@
-/* "use client";
-"use strict"; */
+"use client";
+"use strict";
 
 
 import * as React from 'react';
@@ -9,15 +9,14 @@ import { BarChart } from '@mui/x-charts/BarChart';
 import styles from "./reports.module.css"
 import "./style.css"
 
-/* "use client";
+
 import { useEffect, useState } from "react";
-import styles from "./reports.module.css"
-import axios from 'axios'; */
+import axios from 'axios';
 
 
 const Reports = () => {
 
-    /* const [accessToken, setAccessToken] = useState(null);
+    const [accessToken, setAccessToken] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
     const authenticateUser = async () => {
@@ -75,7 +74,7 @@ const Reports = () => {
         fetchData(); // İçerideki asenkron işlemi çağırıyoruz
     }, [accessToken]);
 
- */
+
 
 
     return (

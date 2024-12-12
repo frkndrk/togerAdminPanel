@@ -11,15 +11,22 @@ import { CiEdit } from "react-icons/ci";
 
 import * as XLSX from 'xlsx';
 
+import { useContext } from 'react';
+import { AuthContext } from '../../../authContext';
+
 const WhiteList = () => {
+
+    const { accessToken, pointId } = useContext(AuthContext);
+    console.log("kullanıcı sayfası point id:", pointId)
+
     const gridColumnApi = useRef(null);
     const [gridApi, setGridApi] = useState(null);
     const [rowData, setRowData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageNumber, setPageNumber] = useState(1);
-    const [totalPages, setTotalPages] = useState(0);
-    const [accessToken, setAccessToken] = useState(null);
+    const [totalPages, setTotalPages] = useState(0);/* 
+    const [accessToken, setAccessToken] = useState(null); */
     const [perPage, setPerPage] = useState(10)
 
     const [showModal, setShowModal] = useState(false);
@@ -290,7 +297,7 @@ const WhiteList = () => {
 
     //
 
-    const authenticateUser = async () => {
+/*     const authenticateUser = async () => {
         try {
             const response = await axios.post("https://app.toger.co/api/v2/auth", {
                 email: "partnertest@gmail.com",
@@ -304,7 +311,7 @@ const WhiteList = () => {
         } catch (err) {
             console.error("Doğrulama hatası:", err.response?.data || err.message);
         }
-    };
+    }; */
 
 
     const fetchParkData = async (page = null, perPage = 10) => {
@@ -316,7 +323,7 @@ const WhiteList = () => {
             // İlk yüklemede toplam sayfa sayısını al ve son sayfanın verisini getir
             if (!page) {
                 const response = await axios.get(
-                    `https://app.toger.co/api/v2/park/3/whitelist`,
+                    `https://app.toger.co/api/v2/park/${pointId}/whitelist`,
                     {
                         headers: { Authorization: `Bearer ${accessToken}` },
                     }
@@ -332,7 +339,7 @@ const WhiteList = () => {
             console.log(perPage)
             // Sayfa numarasına göre veri getir
             const pageResponse = await axios.get(
-                `https://app.toger.co/api/v2/park/3/whitelist?page=${page}&per_page=${perPage}`,
+                `https://app.toger.co/api/v2/park/${pointId}/whitelist?page=${page}&per_page=${perPage}`,
                 { headers: { Authorization: `Bearer ${accessToken}` } }
             );
 
@@ -402,7 +409,7 @@ const WhiteList = () => {
     console.log(totalPages);
 
 
-    useEffect(() => {
+/*     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
 
@@ -416,7 +423,11 @@ const WhiteList = () => {
         };
         fetchData(); // İçerideki asenkron işlemi çağırıyoruz
     }, [accessToken]);
+ */
 
+    useEffect(() => {
+        if (accessToken) fetchParkData();
+      }, [accessToken]);
 
     const gridOptions = {
         pagination: false, // Sayfalama etkinleştir
